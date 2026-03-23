@@ -1,45 +1,92 @@
 .page {
   min-height: 100vh;
-  padding: 24px;
-  background: #f8f8f8;
-  display: flex;
-  flex-direction: column;
+  background: #f5f5f5;
 }
 
-.searchBarPlaceholder {
-  margin-bottom: 24px;
-  padding: 24px;
-  border: 1px dashed #cfcfcf;
-  border-radius: 16px;
-  background: #ffffff;
+.container {
+  max-width: 1760px;
+  margin: 0 auto;
+  padding: 30px 28px 40px;
+}
+
+.searchBarArea {
+  margin-bottom: 48px;
+}
+
+.resultsMeta {
+  margin-bottom: 22px;
+  color: #4b5563;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 500;
 }
 
 .content {
   display: flex;
-  gap: 24px;
-  align-items: stretch;
+  gap: 40px;
+  align-items: flex-start;
 }
 
 .listPlaceholder,
 .detailPlaceholder {
-  min-height: 400px;
-  padding: 24px;
-  border: 1px dashed #cfcfcf;
-  border-radius: 16px;
+  border-radius: 28px;
+  border: 1px solid #ececec;
   background: #ffffff;
-  min-width: 0;
+  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.06);
 }
 
 .listPlaceholder {
-  flex: 1 1 33.333%;
+  flex: 1 1 48%;
+  min-width: 0;
+  min-height: 720px;
+  padding: 28px;
 }
 
 .detailPlaceholder {
-  flex: 2 1 66.666%;
+  flex: 1 1 52%;
+  min-width: 0;
+  min-height: 720px;
+  padding: 28px;
 }
 
 .statusBlock {
-  margin-top: 16px;
+  margin-top: 20px;
   padding-top: 16px;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #ececec;
+}
+
+@media (max-width: 1200px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .listPlaceholder,
+  .detailPlaceholder {
+    width: 100%;
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px 28px;
+  }
+
+  .searchBarArea {
+    margin-bottom: 32px;
+  }
+
+  .resultsMeta {
+    margin-bottom: 16px;
+  }
+
+  .content {
+    gap: 20px;
+  }
+
+  .listPlaceholder,
+  .detailPlaceholder {
+    padding: 20px;
+    border-radius: 22px;
+  }
 }

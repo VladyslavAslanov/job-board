@@ -72,6 +72,10 @@ export class JobBoardStore {
   }
 
   async submitSearch(options?: { autoSelectFirstJob?: boolean }) {
+    if (this.isJobsLoading) {
+      return;
+    }
+
     this.appliedQuery = this.queryDraft.trim();
     this.appliedCountry = this.selectedCountryDraft;
 
@@ -81,6 +85,7 @@ export class JobBoardStore {
 
     this.selectedJobId = null;
     this.selectedJobDetail = null;
+    this.isJobDetailLoading = false;
 
     this.jobsError = null;
     this.jobDetailError = null;
