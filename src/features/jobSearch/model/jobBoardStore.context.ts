@@ -8,7 +8,7 @@ export function useJobBoardStore() {
 
   if (!store) {
     throw new Error(
-      "useJobBoardStore must be used within JobBoardStoreContext.Provider"
+      "useJobBoardStore must be used within JobBoardStoreProvider"
     );
   }
 
