@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useJobBoardStore } from "@/features/jobSearch/model/jobBoardStore.context";
 import { SearchBar } from "@/widgets/searchBar/SearchBar";
+import { JobsListPanel } from "@/widgets/jobsListPanel/JobsListPanel";
 import styles from "./JobBoardPage.module.less";
 
 export const JobBoardPage = observer(function JobBoardPage() {
@@ -9,6 +10,7 @@ export const JobBoardPage = observer(function JobBoardPage() {
 
   useEffect(() => {
     void store.loadCountries();
+    void store.submitSearch({ autoSelectFirstJob: true });
   }, [store]);
 
   return (
@@ -18,25 +20,18 @@ export const JobBoardPage = observer(function JobBoardPage() {
           <SearchBar autoSelectFirstJob />
         </section>
 
-        <section className={styles.resultsMeta}>
-          <span>{store.jobsCount.toLocaleString()} search results</span>
-        </section>
-
         <section className={styles.content}>
-          <div className={styles.listPlaceholder}>
-            <p>Jobs list placeholder</p>
-
-            <div className={styles.statusBlock}>
-              <p>Countries loading: {String(store.isCountriesLoading)}</p>
-              <p>Countries count: {store.countries.length}</p>
-              <p>Countries error: {store.countriesError ?? "none"}</p>
-              <p>Jobs loading: {String(store.isJobsLoading)}</p>
-              <p>Jobs count: {store.jobsCount}</p>
-            </div>
+          <div className={styles.listColumn}>
+            <JobsListPanel />
           </div>
 
-          <aside className={styles.detailPlaceholder}>
-            <p>Job detail placeholder</p>
+          <aside className={styles.detailColumn}>
+            <div className={styles.detailPlaceholder}>
+              <p>Job detail placeholder</p>
+              <p>Selected job id: {store.selectedJobId ?? "none"}</p>
+              <p>Detail loading: {String(store.isJobDetailLoading)}</p>
+              <p>Detail error: {store.jobDetailError ?? "none"}</p>
+            </div>
           </aside>
         </section>
       </div>
