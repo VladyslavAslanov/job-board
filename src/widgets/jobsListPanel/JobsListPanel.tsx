@@ -35,7 +35,9 @@ export const JobsListPanel = observer(function JobsListPanel({
           <span className={styles.count}>Loading jobs...</span>
         </div>
 
-        <div className={styles.centerState}>Loading results...</div>
+        <div className={styles.centerState} aria-live="polite">
+          Loading results...
+        </div>
       </section>
     );
   }
@@ -47,7 +49,9 @@ export const JobsListPanel = observer(function JobsListPanel({
           <span className={styles.count}>Search results</span>
         </div>
 
-        <div className={styles.centerState}>{store.jobsError}</div>
+        <div className={styles.centerState} aria-live="polite">
+          {store.jobsError}
+        </div>
       </section>
     );
   }
@@ -61,7 +65,9 @@ export const JobsListPanel = observer(function JobsListPanel({
           </span>
         </div>
 
-        <div className={styles.centerState}>No jobs found.</div>
+        <div className={styles.centerState} aria-live="polite">
+          No jobs found.
+        </div>
       </section>
     );
   }
@@ -96,7 +102,9 @@ export const JobsListPanel = observer(function JobsListPanel({
       />
 
       {store.isLoadingMore ? (
-        <div className={styles.footerState}>Loading more jobs...</div>
+        <div className={styles.footerState} aria-live="polite">
+          Loading more jobs...
+        </div>
       ) : null}
 
       {!store.nextPageUrl && store.jobs.length > 0 ? (
@@ -106,7 +114,9 @@ export const JobsListPanel = observer(function JobsListPanel({
       ) : null}
 
       {store.jobsError && store.jobs.length > 0 ? (
-        <div className={styles.footerError}>{store.jobsError}</div>
+        <div className={styles.centerState} aria-live="polite">
+          {store.jobsError}
+        </div>
       ) : null}
     </section>
   );

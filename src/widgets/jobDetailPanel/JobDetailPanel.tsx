@@ -1,4 +1,5 @@
 import { observer } from "mobx-react-lite";
+import { useState } from "react";
 import { useJobBoardStore } from "@/features/jobSearch/model/jobBoardStore.context";
 import { formatJobPostedDate } from "@/shared/lib/format/date";
 import {
@@ -10,6 +11,7 @@ import styles from "./JobDetailPanel.module.less";
 
 export const JobDetailPanel = observer(function JobDetailPanel() {
   const store = useJobBoardStore();
+  const [hasLogoError, setHasLogoError] = useState(false);
 
   if (!store.selectedJobId && !store.isJobDetailLoading) {
     return (
@@ -44,23 +46,24 @@ export const JobDetailPanel = observer(function JobDetailPanel() {
   }
 
   const job = store.selectedJobDetail;
-
   const locationText = formatJobLocations(job.locations);
   const arrangementText = getWorkArrangementLabel(job.workArrangement);
   const salaryText = formatSalaryRange(job.salary);
   const postedText = formatJobPostedDate(job.postedAt);
+  const showLogo = !!job.companyLogoUrl && !hasLogoError;
 
   return (
-    <section className={styles.panel}>
+    <section className={styles.panel} aria-label="Job details">
       <div className={styles.header}>
         <div className={styles.headerMain}>
           <div className={styles.logoWrap} aria-hidden="true">
-            {job.companyLogoUrl ? (
+            {showLogo ? (
               <img
                 className={styles.logo}
-                src={job.companyLogoUrl}
+                src={job.companyLogoUrl as string}
                 alt=""
                 loading="lazy"
+                onError={() => setHasLogoError(true)}
               />
             ) : (
               <div className={styles.logoPlaceholder}>
@@ -80,6 +83,7 @@ export const JobDetailPanel = observer(function JobDetailPanel() {
           href={job.applyUrl}
           target="_blank"
           rel="noreferrer"
+          aria-label={`Apply for ${job.title} at ${job.companyName}`}
         >
           Apply
         </a>

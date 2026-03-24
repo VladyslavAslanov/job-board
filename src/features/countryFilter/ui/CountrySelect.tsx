@@ -109,7 +109,7 @@ export function CountrySelect({
   ) => {
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setHighlightedIndex((prev) => Math.min(prev + 1, options.length));
+      setHighlightedIndex((prev) => Math.min(prev + 1, allOptions.length - 1));
       return;
     }
 

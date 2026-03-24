@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { JobListItem } from "@/entities/job/model/job.model";
 import { formatJobPostedDate } from "@/shared/lib/format/date";
 import {
@@ -14,10 +15,14 @@ interface JobCardProps {
 }
 
 export function JobCard({ job, isSelected, onClick }: JobCardProps) {
+  const [hasLogoError, setHasLogoError] = useState(false);
+
   const locationText = formatJobLocations(job.locations);
   const arrangementText = getWorkArrangementLabel(job.workArrangement);
   const salaryText = formatSalaryRange(job.salary);
   const postedDateText = formatJobPostedDate(job.postedAt);
+
+  const showLogo = !!job.companyLogoUrl && !hasLogoError;
 
   return (
     <button
@@ -26,15 +31,17 @@ export function JobCard({ job, isSelected, onClick }: JobCardProps) {
       data-selected={isSelected}
       onClick={onClick}
       aria-pressed={isSelected}
+      aria-label={`Open details for ${job.title} at ${job.companyName}`}
     >
       <div className={styles.topRow}>
         <div className={styles.logoWrap} aria-hidden="true">
-          {job.companyLogoUrl ? (
+          {showLogo ? (
             <img
               className={styles.logo}
-              src={job.companyLogoUrl}
+              src={job.companyLogoUrl as string}
               alt=""
               loading="lazy"
+              onError={() => setHasLogoError(true)}
             />
           ) : (
             <div className={styles.logoPlaceholder}>

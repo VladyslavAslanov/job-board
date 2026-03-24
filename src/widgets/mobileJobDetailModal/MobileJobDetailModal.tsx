@@ -1,5 +1,6 @@
 import { Modal, Button } from "antd";
 import { observer } from "mobx-react-lite";
+import { useState } from "react";
 import { useJobBoardStore } from "@/features/jobSearch/model/jobBoardStore.context";
 import { formatJobPostedDate } from "@/shared/lib/format/date";
 import {
@@ -12,6 +13,7 @@ import styles from "./MobileJobDetailModal.module.less";
 export const MobileJobDetailModal = observer(function MobileJobDetailModal() {
   const store = useJobBoardStore();
   const job = store.selectedJobDetail;
+  const [hasLogoError, setHasLogoError] = useState(false);
 
   const salaryText = job ? formatSalaryRange(job.salary) : null;
   const arrangementText = job
@@ -19,6 +21,7 @@ export const MobileJobDetailModal = observer(function MobileJobDetailModal() {
     : null;
   const locationText = job ? formatJobLocations(job.locations) : null;
   const postedText = job ? formatJobPostedDate(job.postedAt) : null;
+  const showLogo = !!job?.companyLogoUrl && !hasLogoError;
 
   return (
     <Modal
@@ -31,7 +34,7 @@ export const MobileJobDetailModal = observer(function MobileJobDetailModal() {
       className={styles.modal}
       rootClassName={styles.modalRoot}
       styles={{
-        container: {
+        content: {
           padding: 0,
           overflow: "hidden",
           borderRadius: 24,
@@ -60,12 +63,13 @@ export const MobileJobDetailModal = observer(function MobileJobDetailModal() {
               <div className={styles.header}>
                 <div className={styles.headerMain}>
                   <div className={styles.logoWrap} aria-hidden="true">
-                    {job.companyLogoUrl ? (
+                    {showLogo ? (
                       <img
                         className={styles.logo}
-                        src={job.companyLogoUrl}
+                        src={job.companyLogoUrl as string}
                         alt=""
                         loading="lazy"
+                        onError={() => setHasLogoError(true)}
                       />
                     ) : (
                       <div className={styles.logoPlaceholder}>
@@ -125,6 +129,7 @@ export const MobileJobDetailModal = observer(function MobileJobDetailModal() {
                 className={styles.backButton}
                 size="large"
                 onClick={store.closeMobileDetail}
+                aria-label="Close job details"
               >
                 Back
               </Button>
@@ -135,6 +140,7 @@ export const MobileJobDetailModal = observer(function MobileJobDetailModal() {
                 size="large"
                 href={job.applyUrl}
                 target="_blank"
+                aria-label={`Apply for ${job.title} at ${job.companyName}`}
               >
                 Apply Now
               </Button>
