@@ -1,17 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
 import { useJobBoardStore } from "@/features/jobSearch/model/jobBoardStore.context";
-import { formatJobPostedDate } from "@/shared/lib/format/date";
-import {
-  formatJobLocations,
-  getWorkArrangementLabel,
-} from "@/shared/lib/format/jobs";
-import { formatSalaryRange } from "@/shared/lib/format/salary";
+import { JobDetailContent } from "@/entities/job/ui/JobDetailContent";
 import styles from "./JobDetailPanel.module.less";
 
 export const JobDetailPanel = observer(function JobDetailPanel() {
   const store = useJobBoardStore();
-  const [hasLogoError, setHasLogoError] = useState(false);
 
   if (!store.selectedJobId && !store.isJobDetailLoading) {
     return (
@@ -46,38 +39,10 @@ export const JobDetailPanel = observer(function JobDetailPanel() {
   }
 
   const job = store.selectedJobDetail;
-  const locationText = formatJobLocations(job.locations);
-  const arrangementText = getWorkArrangementLabel(job.workArrangement);
-  const salaryText = formatSalaryRange(job.salary);
-  const postedText = formatJobPostedDate(job.postedAt);
-  const showLogo = !!job.companyLogoUrl && !hasLogoError;
 
   return (
     <section className={styles.panel} aria-label="Job details">
-      <div className={styles.header}>
-        <div className={styles.headerMain}>
-          <div className={styles.logoWrap} aria-hidden="true">
-            {showLogo ? (
-              <img
-                className={styles.logo}
-                src={job.companyLogoUrl as string}
-                alt=""
-                loading="lazy"
-                onError={() => setHasLogoError(true)}
-              />
-            ) : (
-              <div className={styles.logoPlaceholder}>
-                {job.companyName.slice(0, 1).toUpperCase()}
-              </div>
-            )}
-          </div>
-
-          <div className={styles.titleGroup}>
-            <h2 className={styles.title}>{job.title}</h2>
-            <p className={styles.company}>{job.companyName}</p>
-          </div>
-        </div>
-
+      <div className={styles.headerRow}>
         <a
           className={styles.applyButton}
           href={job.applyUrl}
@@ -89,39 +54,9 @@ export const JobDetailPanel = observer(function JobDetailPanel() {
         </a>
       </div>
 
-      <div className={styles.metaBlock}>
-        {salaryText ? <p className={styles.salary}>{salaryText}</p> : null}
-
-        {arrangementText ? (
-          <p className={styles.metaLine}>
-            <span className={styles.metaIcon} aria-hidden="true">
-              ⌂
-            </span>
-            <span>{arrangementText}</span>
-          </p>
-        ) : null}
-
-        {locationText ? (
-          <p className={styles.metaLine}>
-            <span className={styles.metaIcon} aria-hidden="true">
-              ⌖
-            </span>
-            <span>{locationText}</span>
-          </p>
-        ) : null}
-
-        <p className={styles.metaLine}>
-          <span className={styles.metaIcon} aria-hidden="true">
-            ○
-          </span>
-          <span>Posted {postedText}</span>
-        </p>
+      <div className={styles.scrollArea}>
+        <JobDetailContent job={job} />
       </div>
-
-      <div
-        className={styles.description}
-        dangerouslySetInnerHTML={{ __html: job.descriptionHtml }}
-      />
     </section>
   );
 });

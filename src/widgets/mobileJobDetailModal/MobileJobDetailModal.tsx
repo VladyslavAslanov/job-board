@@ -1,27 +1,12 @@
 import { Modal, Button } from "antd";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
 import { useJobBoardStore } from "@/features/jobSearch/model/jobBoardStore.context";
-import { formatJobPostedDate } from "@/shared/lib/format/date";
-import {
-  formatJobLocations,
-  getWorkArrangementLabel,
-} from "@/shared/lib/format/jobs";
-import { formatSalaryRange } from "@/shared/lib/format/salary";
+import { JobDetailContent } from "@/entities/job/ui/JobDetailContent";
 import styles from "./MobileJobDetailModal.module.less";
 
 export const MobileJobDetailModal = observer(function MobileJobDetailModal() {
   const store = useJobBoardStore();
   const job = store.selectedJobDetail;
-  const [hasLogoError, setHasLogoError] = useState(false);
-
-  const salaryText = job ? formatSalaryRange(job.salary) : null;
-  const arrangementText = job
-    ? getWorkArrangementLabel(job.workArrangement)
-    : null;
-  const locationText = job ? formatJobLocations(job.locations) : null;
-  const postedText = job ? formatJobPostedDate(job.postedAt) : null;
-  const showLogo = !!job?.companyLogoUrl && !hasLogoError;
 
   return (
     <Modal
@@ -34,7 +19,7 @@ export const MobileJobDetailModal = observer(function MobileJobDetailModal() {
       className={styles.modal}
       rootClassName={styles.modalRoot}
       styles={{
-        content: {
+        container: {
           padding: 0,
           overflow: "hidden",
           borderRadius: 24,
@@ -60,68 +45,7 @@ export const MobileJobDetailModal = observer(function MobileJobDetailModal() {
         {job ? (
           <>
             <div className={styles.content}>
-              <div className={styles.header}>
-                <div className={styles.headerMain}>
-                  <div className={styles.logoWrap} aria-hidden="true">
-                    {showLogo ? (
-                      <img
-                        className={styles.logo}
-                        src={job.companyLogoUrl as string}
-                        alt=""
-                        loading="lazy"
-                        onError={() => setHasLogoError(true)}
-                      />
-                    ) : (
-                      <div className={styles.logoPlaceholder}>
-                        {job.companyName.slice(0, 1).toUpperCase()}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className={styles.titleGroup}>
-                    <h2 className={styles.title}>{job.title}</h2>
-                    <p className={styles.company}>{job.companyName}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.metaBlock}>
-                {salaryText ? (
-                  <p className={styles.salary}>{salaryText}</p>
-                ) : null}
-
-                {arrangementText ? (
-                  <p className={styles.metaLine}>
-                    <span className={styles.metaIcon} aria-hidden="true">
-                      ⌂
-                    </span>
-                    <span>{arrangementText}</span>
-                  </p>
-                ) : null}
-
-                {locationText ? (
-                  <p className={styles.metaLine}>
-                    <span className={styles.metaIcon} aria-hidden="true">
-                      ⌖
-                    </span>
-                    <span>{locationText}</span>
-                  </p>
-                ) : null}
-
-                {postedText ? (
-                  <p className={styles.metaLine}>
-                    <span className={styles.metaIcon} aria-hidden="true">
-                      ○
-                    </span>
-                    <span>Posted {postedText}</span>
-                  </p>
-                ) : null}
-              </div>
-
-              <div
-                className={styles.description}
-                dangerouslySetInnerHTML={{ __html: job.descriptionHtml }}
-              />
+              <JobDetailContent job={job} />
             </div>
 
             <div className={styles.bottomBar}>
