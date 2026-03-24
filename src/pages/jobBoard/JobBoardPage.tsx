@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useJobBoardStore } from "@/features/jobSearch/model/jobBoardStore.context";
 import { SearchBar } from "@/widgets/searchBar/SearchBar";
 import { JobsListPanel } from "@/widgets/jobsListPanel/JobsListPanel";
+import { JobDetailPanel } from "@/widgets/jobDetailPanel/JobDetailPanel";
 import styles from "./JobBoardPage.module.less";
 
 export const JobBoardPage = observer(function JobBoardPage() {
@@ -26,12 +27,7 @@ export const JobBoardPage = observer(function JobBoardPage() {
           </div>
 
           <aside className={styles.detailColumn}>
-            <div className={styles.detailPlaceholder}>
-              <p>Job detail placeholder</p>
-              <p>Selected job id: {store.selectedJobId ?? "none"}</p>
-              <p>Detail loading: {String(store.isJobDetailLoading)}</p>
-              <p>Detail error: {store.jobDetailError ?? "none"}</p>
-            </div>
+            <JobDetailPanel />
           </aside>
         </section>
       </div>
