@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CountryOption } from "@/entities/country/model/country.model";
 import styles from "./CountrySelect.module.less";
 
@@ -60,20 +60,13 @@ export function CountrySelect({
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    const selectedIndex = options.findIndex((option) => option.value === value);
-    setHighlightedIndex(selectedIndex >= 0 ? selectedIndex : 0);
-  }, [isOpen, options, value]);
-
   const openDropdown = () => {
     if (isLoading || error) {
       return;
     }
 
+    const selectedIndex = options.findIndex((option) => option.value === value);
+    setHighlightedIndex(selectedIndex >= 0 ? selectedIndex : 0);
     setIsOpen(true);
   };
 
@@ -110,7 +103,7 @@ export function CountrySelect({
   };
 
   const handleOptionKeyDown = (
-    event: KeyboardEvent<HTMLLIElement>,
+    event: React.KeyboardEvent<HTMLLIElement>,
     index: number,
     optionValue: string | null
   ) => {
