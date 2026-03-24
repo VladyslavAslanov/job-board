@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "antd": "^6.3.3",
     "axios": "^1.13.6",
     "less": "^4.6.4",
     "mobx": "^6.15.0",

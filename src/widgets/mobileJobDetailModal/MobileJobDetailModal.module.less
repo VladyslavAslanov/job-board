@@ -1,28 +1,22 @@
-.modalRoot :global(.ant-modal) {
-  max-width: 100vw;
-  margin: 0;
-  padding: 0;
-}
-
-.modalRoot :global(.ant-modal-content) {
-  border-radius: 24px 24px 0 0;
-}
-
-.modalRoot :global(.ant-modal-centered) {
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(17, 24, 39, 0.4);
+  display: flex;
   align-items: flex-end;
 }
 
-.modal {
-  top: auto;
-  padding-bottom: 0;
-}
-
 .modalShell {
+  position: relative;
+  width: 100%;
   height: 88vh;
   max-height: 88vh;
+  border-radius: 24px 24px 0 0;
   background: #ffffff;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .centerState {
@@ -43,126 +37,6 @@
   padding: 22px 20px 120px;
 }
 
-.header {
-  margin-bottom: 22px;
-}
-
-.headerMain {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  min-width: 0;
-}
-
-.logoWrap {
-  flex: 0 0 auto;
-}
-
-.logo,
-.logoPlaceholder {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-}
-
-.logo {
-  display: block;
-  object-fit: cover;
-  background: #f4f4f5;
-}
-
-.logoPlaceholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f4f4f5;
-  color: #52525b;
-  font-size: 19px;
-  font-weight: 500;
-}
-
-.titleGroup {
-  min-width: 0;
-}
-
-.title {
-  margin: 0 0 6px;
-  color: #27272a;
-  font-size: 24px;
-  line-height: 1.15;
-  font-weight: 500;
-}
-
-.company {
-  margin: 0;
-  color: #6b7280;
-  font-size: 16px;
-  line-height: 1.3;
-}
-
-.metaBlock {
-  margin-bottom: 22px;
-}
-
-.salary {
-  margin: 0 0 14px;
-  color: #3f3f46;
-  font-size: 22px;
-  line-height: 1.2;
-  font-weight: 500;
-}
-
-.metaLine {
-  margin: 0 0 8px;
-  color: #52525b;
-  font-size: 15px;
-  line-height: 1.35;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.metaIcon {
-  flex: 0 0 auto;
-  color: #6b7280;
-  width: 18px;
-  text-align: center;
-}
-
-.description {
-  color: #3f3f46;
-  font-size: 16px;
-  line-height: 1.55;
-}
-
-.description p {
-  margin: 0 0 16px;
-}
-
-.description ul,
-.description ol {
-  margin: 0 0 16px 20px;
-  padding: 0;
-}
-
-.description li {
-  margin-bottom: 8px;
-}
-
-.description h1,
-.description h2,
-.description h3,
-.description h4 {
-  margin: 0 0 14px;
-  color: #27272a;
-  line-height: 1.25;
-  font-weight: 500;
-}
-
-.description a {
-  color: #ff6b5f;
-}
-
 .bottomBar {
   position: absolute;
   left: 0;
@@ -179,20 +53,24 @@
 .backButton,
 .applyButton {
   flex: 1 1 0;
-  height: 48px !important;
-  border-radius: 14px !important;
-  font-size: 16px !important;
-  font-weight: 500 !important;
+  height: 48px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .backButton {
-  border-color: #d4d4d8 !important;
-  color: #3f3f46 !important;
-  background: #ffffff !important;
+  border: 1px solid #d4d4d8;
+  background: #ffffff;
+  color: #3f3f46;
 }
 
 .applyButton {
-  border-color: #ff6b5f !important;
-  background: #ff6b5f !important;
-  box-shadow: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ff6b5f;
+  background: #ff6b5f;
+  color: #ffffff;
+  text-decoration: none;
 }
