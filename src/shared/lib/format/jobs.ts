@@ -27,10 +27,21 @@ export function getWorkArrangementLabel(
   }
 }
 
-export function formatJobLocations(locations: string[]): string | null {
-  if (locations.length === 0) {
+export function formatJobLocations(
+  locations: string[] | null | undefined
+): string | null {
+  if (!locations || locations.length === 0) {
     return null;
   }
 
-  return locations.join(", ");
+  const normalizedLocations = locations.filter(
+    (location): location is string =>
+      typeof location === "string" && location.trim().length > 0
+  );
+
+  if (normalizedLocations.length === 0) {
+    return null;
+  }
+
+  return normalizedLocations.join(", ");
 }
